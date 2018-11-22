@@ -17,28 +17,29 @@ class Node: ISerializable
 
         public Node(SerializationInfo info, StreamingContext context)
         {
-            this.IsValueSet = (bool)info.GetValue("ivs", typeof(bool));
+            this.IsValueSet = (bool)info.GetValue(Node.flagId, typeof(bool));
             if(this.IsValueSet)
-                this.Data = (int) info.GetValue(nodeSerializationId, typeof(int));
+                this.Data = (int) info.GetValue(Node.dataId, typeof(int));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("ivs", this.IsValueSet, typeof(bool)); 
+            info.AddValue(Node.flagId, this.IsValueSet, typeof(bool)); 
             if(this.IsValueSet)
-                info.AddValue(nodeSerializationId, this.Data, typeof(int));            
+                info.AddValue(Node.dataId, this.Data, typeof(int));            
         }
         private bool IsValueSet{get;set;} = false;
         public int? Data {get;set;}
         public Node Left {get;set;}
         public Node Right {get;set;}
-        static string nodeSerializationId = "Data";
+        static string dataId = "d";
+        static string flagId = "f";
+
 }
 [Serializable]
 class BinaryTree: ISerializable
 {   
     private Node Root {get;set;} = null;
-    static string nodeItemString = "N";
     public BinaryTree(){}
     public BinaryTree(SerializationInfo info, StreamingContext context)
     {
